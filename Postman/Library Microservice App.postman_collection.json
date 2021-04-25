@@ -1,0 +1,69 @@
+{
+	"info": {
+		"_postman_id": "56dd66ab-8b2c-45bf-beaa-557858671df7",
+		"name": "Library Microservice App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Fase1",
+			"item": [
+				{
+					"name": "Library Events",
+					"item": [
+						{
+							"name": "libraryEventAPI",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"libraryEventId\":null,\n   \"book\":{\n      \"bookId\":456,\n      \"bookName\":\"Kafka Using Spring Boot\",\n      \"bookAuthor\":\"Dilip\"\n   }\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8080/v1/libraryevent",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"v1",
+										"libraryevent"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}
