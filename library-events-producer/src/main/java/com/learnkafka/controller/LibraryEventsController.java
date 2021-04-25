@@ -27,9 +27,12 @@ public class LibraryEventsController {
         //Asynchronous call
         //libraryEventProducer.sendLibraryEvent(libraryEvent);
 
+        //Asynchronous call with Producer Record
+        libraryEventProducer.sendLibraryEventWithProducerRecord(libraryEvent);
+
         //Synchronous call
-        SendResult<Integer, String> sendResult = libraryEventProducer.sendLibraryEventSynchronous(libraryEvent);
-        log.info("SendResult is{}",sendResult.toString());
+        //SendResult<Integer, String> sendResult = libraryEventProducer.sendLibraryEventSynchronous(libraryEvent);
+        //log.info("SendResult is{}",sendResult.toString());
 
         log.info("after sendLibraryEvent");
         return ResponseEntity.status(HttpStatus.CREATED).body(libraryEvent);
