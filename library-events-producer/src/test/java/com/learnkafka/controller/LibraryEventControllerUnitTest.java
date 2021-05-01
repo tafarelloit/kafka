@@ -15,8 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.doNothing;
 
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -50,15 +48,10 @@ public class LibraryEventControllerUnitTest {
         doNothing().when(libraryEventProducer).sendLibraryEventWithProducerRecord(isA(LibraryEvent.class));
         //When
 
-        ResultMatcher created = MockMvcResultMatchers.status()
-                .isCreated();
-
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/v1/libraryevent")
-                .contentType(json)
-                .contentType(MediaType.APPLICATION_JSON);
-
-        mockMvc.perform(builder)
-                .andExpect(created);
+        mockMvc.perform(MockMvcRequestBuilders.post("/v1/libraryevent")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(MockMvcResultMatchers.status().isCreated());
 
     }
 }
