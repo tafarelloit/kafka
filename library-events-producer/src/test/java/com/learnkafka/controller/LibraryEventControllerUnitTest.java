@@ -54,4 +54,34 @@ public class LibraryEventControllerUnitTest {
                     .andExpect(MockMvcResultMatchers.status().isCreated());
 
     }
+
+    @Test
+    void postLibraryEvent_4xx() throws Exception {
+        //given
+        Book book = Book.builder()
+                .bookId(null)
+                .bookAuthor(null)
+                .bookName("Kafka using Spring Boot")
+                .build();
+
+        LibraryEvent libraryEvent = LibraryEvent.builder()
+                .libraryEventId(null)
+                .book(book)
+                .build();
+
+        String json = objectmapper.writeValueAsString(libraryEvent);
+
+        doNothing().when(libraryEventProducer).sendLibraryEventWithProducerRecord(isA(LibraryEvent.class));
+
+        //expect
+        String expectErrorMessage = "book.bookAuthor - must not be blank, book.bookId - must not be null";
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/v1/libraryevent")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+                .andExpect(MockMvcResultMatchers.content().string(expectErrorMessage));
+    }
+
+
 }
