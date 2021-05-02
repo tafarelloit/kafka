@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -45,7 +46,8 @@ public class LibraryEventControllerUnitTest {
 
         String json = objectmapper.writeValueAsString(libraryEvent);
 
-        doNothing().when(libraryEventProducer).sendLibraryEventWithProducerRecord(isA(LibraryEvent.class));
+        when(libraryEventProducer.sendLibraryEventWithProducerRecord(isA(LibraryEvent.class))).thenReturn(null);
+        //doNothing().when(libraryEventProducer).sendLibraryEventWithProducerRecord(isA(LibraryEvent.class));
         //When
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v1/libraryevent")
@@ -71,7 +73,8 @@ public class LibraryEventControllerUnitTest {
 
         String json = objectmapper.writeValueAsString(libraryEvent);
 
-        doNothing().when(libraryEventProducer).sendLibraryEventWithProducerRecord(isA(LibraryEvent.class));
+        when(libraryEventProducer.sendLibraryEventWithProducerRecord(isA(LibraryEvent.class))).thenReturn(null);
+        //doNothing().when(libraryEventProducer).sendLibraryEventWithProducerRecord(isA(LibraryEvent.class));
 
         //expect
         String expectErrorMessage = "book.bookAuthor - must not be blank, book.bookId - must not be null";
