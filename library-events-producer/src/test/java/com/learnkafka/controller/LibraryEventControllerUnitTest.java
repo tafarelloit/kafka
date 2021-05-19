@@ -106,6 +106,8 @@ public class LibraryEventControllerUnitTest {
 
         String json = objectmapper.writeValueAsString(libraryEvent);
 
+
+
         when(libraryEventProducer.sendLibraryEventWithProducerRecord(isA(LibraryEvent.class))).thenReturn(null);
         //doNothing().when(libraryEventProducer).sendLibraryEventWithProducerRecord(isA(LibraryEvent.class));
         //When
@@ -134,11 +136,13 @@ public class LibraryEventControllerUnitTest {
 
         when(libraryEventProducer.sendLibraryEventWithProducerRecord(isA(LibraryEvent.class))).thenReturn(null);
         //doNothing().when(libraryEventProducer).sendLibraryEventWithProducerRecord(isA(LibraryEvent.class));
-        //When
+
+        String expectErrorMessage = "Please pass the LibraryEventId";
 
         mockMvc.perform(MockMvcRequestBuilders.put("/v1/libraryevent")
                 .content(json)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+                .andExpect(MockMvcResultMatchers.content().string(expectErrorMessage));
     }
 }
