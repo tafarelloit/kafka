@@ -89,7 +89,7 @@ public class LibraryEventControllerUnitTest {
 
 
     @Test
-    void putLibraryEvent() throws Exception {
+    void updateLibraryEvent() throws Exception {
         //given
         Book book = Book.builder()
                 .bookId(123)
@@ -116,4 +116,29 @@ public class LibraryEventControllerUnitTest {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
+    @Test
+    void updateLibraryEvent_withNullLibraryEventId() throws Exception {
+        //given
+        Book book = Book.builder()
+                .bookId(123)
+                .bookAuthor("Itamar")
+                .bookName("Kafka using Spring Boot")
+                .build();
+
+        LibraryEvent libraryEvent = LibraryEvent.builder()
+                .libraryEventId(null)
+                .book(book)
+                .build();
+
+        String json = objectmapper.writeValueAsString(libraryEvent);
+
+        when(libraryEventProducer.sendLibraryEventWithProducerRecord(isA(LibraryEvent.class))).thenReturn(null);
+        //doNothing().when(libraryEventProducer).sendLibraryEventWithProducerRecord(isA(LibraryEvent.class));
+        //When
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/v1/libraryevent")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
 }
