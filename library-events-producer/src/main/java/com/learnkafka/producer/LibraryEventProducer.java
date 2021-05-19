@@ -57,6 +57,9 @@ public class LibraryEventProducer {
         Integer key = libraryEvent.getLibraryEventId();
         String value = objectMapper.writeValueAsString(libraryEvent);
 
+        log.info("value "+value);
+        log.info("key "+String.valueOf(key));
+
         ProducerRecord<Integer, String> producerRecord = buildProducerRecord(key, value, topic);
 
         ListenableFuture<SendResult<Integer, String>> listenableFuture = kafkaTemplate.send(producerRecord);
@@ -80,7 +83,7 @@ public class LibraryEventProducer {
 
         List<Header> recordHeaders = List.of( new RecordHeader("event-source","scanner".getBytes()));
 
-        return new ProducerRecord<>(topic, null, key, value, recordHeaders);
+        return new ProducerRecord<>(topic, 0, key, value, recordHeaders);
     }
 
     //Synchronous Call
